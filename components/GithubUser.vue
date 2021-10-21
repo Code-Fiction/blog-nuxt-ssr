@@ -31,7 +31,7 @@ export default {
 <style scoped>
 .user {
   width: 100%;
-  min-height: 100vh;
+  min-height: 90vh;
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -1,7 +1,6 @@
 <template>
   <div class="github-user">
     <GithubUser v-if="userData" :user-data="userData" />
-    <p class="notfound" v-else>User not found</p>
   </div>
 </template>
 
@@ -9,25 +8,26 @@
 import GithubUser from "@/components/GithubUser.vue";
 
 export default {
-  components: { GithubUser },
-  async asyncData({ $axios, params }) {
-    // User name from route params
-    const { user = null } = params;
+  components: {
+    GithubUser
+  },
+  data: () => ({
+    userData: null
+  }),
+  async fetch() {
+    const { user = null } = this.$route.params;
 
-    // Request for get a user
-    const userData = await $axios
+    if (!user) return;
+
+    this.userData = await this.$axios
       .get(`https://api.github.com/users/${user}`)
       .then(response => response.data)
       .catch(() => null);
-
-    return {
-      userData
-    };
   },
   // Customize head title
   head() {
     return {
-      title: this.userData.name || "Github user"
+      title: this.userData?.name || "Github user"
     };
   }
 };
